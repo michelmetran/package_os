@@ -1,0 +1,232 @@
+---
+layout: post
+title: OS
+subtitle: Exercícios e Referências
+tags: [python, pycharm, jupyter, package, os]
+image: /img/posts/pandas_icon.png
+bigimg: /img/posts/pandas_big.png
+gh-repo: michelmetran/package_os
+gh-badge: [follow, star, watch, fork]
+comments: true
+
+---
+
+# Caminhos e endereços
+
+
+```python
+import os
+```
+
+
+```python
+# Pasta Atual
+os.getcwd()
+```
+
+
+
+
+    '/media/Geodata/SourceCode/package_os'
+
+
+
+
+```python
+# Altera a pasta
+os.chdir('/home/michel/Geodata/SourceCode/michelmetran.github.io')
+os.getcwd()
+```
+
+
+
+
+    '/media/Geodata/SourceCode/michelmetran.github.io'
+
+
+
+
+```python
+# Vai para a Pasta do Usuário
+os.path.expanduser('~')
+```
+
+
+```python
+# Vai para a pasta de um arquivo específicos
+os.path.dirname('/home/michel/Geodata/SourceCode/package_pandas/pandas.ipynb')
+```
+
+
+```python
+# Altera a pasta
+os.chdir('/home/michel/Geodata/SourceCode/package_os')
+os.getcwd()
+```
+
+
+
+
+    '/media/Geodata/SourceCode/package_os'
+
+
+
+
+```python
+from importlib import reload
+reload(os)
+```
+
+
+
+
+    <module 'os' from '/home/michel/miniconda/envs/pablocarreira-py36/lib/python3.6/os.py'>
+
+
+
+## Pastas e Diretórios
+
+
+```python
+# Cria Diretório
+os.makedirs('directory')
+```
+
+
+```python
+import shutil
+shutil.rmtree('directory')
+```
+
+## Loops
+
+
+```python
+
+```
+
+
+```python
+%run '../codes/files/create_folders.py'
+create_folders('', ['data', 'data/Dados Originais', 'docs', 'maps'])
+```
+
+    Directory "data" created!
+    Directory "data/Dados Originais" created!
+    Directory "docs" created!
+    Directory "maps" created!
+
+
+
+```python
+# %load '../codes/files/export_jupyter.py'
+def export_jupyter(path, extensions=['html', 'markdown', 'latex', 'pdf', 'python'], today=True):
+    """
+    Export .ipynb file to others formats
+    :return: File in other formats
+    """
+    # Import Packages
+    import os
+    import datetime
+
+    # Data
+    timestamp = datetime.datetime.now()
+    srt_today = (str(timestamp.year) + '-' +
+                 str(f"{timestamp.month:02d}") + '-' +
+                 str(f"{timestamp.day:02d}"))
+
+    # Extensions
+    for extension in extensions:
+        if today==True:
+            os.system('jupyter nbconvert --to {} {} --output {}'.
+                      format(extension, get_jupyternotebook_name(),
+                             os.path.join(path, srt_today+'-'+get_jupyternotebook_name().split('.')[0])))
+            print('Arquivo {} exportado corretamente para o formato {} usando prefixo da data.'.
+                  format(get_jupyternotebook_name(), extension))
+
+        else:
+            os.system('jupyter nbconvert --to {} {} --output {}'.
+                      format(extension, get_jupyternotebook_name(),
+                             os.path.join(path, get_jupyternotebook_name().split('.')[0])))
+            print('Arquivo {} exportado corretamente para o formato {} sem usar prefixo da data.'.
+                  format(get_jupyternotebook_name(), extension))
+
+```
+
+
+```python
+# %load '../codes/files/get_jupyternotebook_name.py'
+def get_jupyternotebook_name():
+    """
+    Returns the name of the current notebook as a string
+    From https://mail.scipy.org/pipermail/ipython-dev/2014-June/014096.html
+    :return: Returns the name of the current notebook as a string
+    """
+    # Import Packages
+    from IPython.core.display import Javascript
+    from IPython.display import display
+
+    display(Javascript('IPython.notebook.kernel.execute("theNotebook = " + \
+    "\'"+IPython.notebook.notebook_name+"\'");'))
+
+    # Result
+    return theNotebook
+
+```
+
+
+```python
+export_jupyter('docs',['pdf'], False)
+export_jupyter('docs', ['markdown'], True)
+```
+
+
+    <IPython.core.display.Javascript object>
+
+
+
+    <IPython.core.display.Javascript object>
+
+
+
+    <IPython.core.display.Javascript object>
+
+
+    Arquivo os.ipynb exportado corretamente para o formato pdf sem usar prefixo da data.
+
+
+
+    <IPython.core.display.Javascript object>
+
+
+
+    <IPython.core.display.Javascript object>
+
+
+
+    <IPython.core.display.Javascript object>
+
+
+    Arquivo os.ipynb exportado corretamente para o formato markdown usando prefixo da data.
+
+
+
+```python
+get_jupyternotebook_name()
+```
+
+
+    <IPython.core.display.Javascript object>
+
+
+
+
+
+    'os.ipynb'
+
+
+
+
+```python
+
+```
